@@ -15,7 +15,6 @@ func ConnectToRedis() *redis.Client {
 
 	rdb := redis.NewClient(&redis.Options{
 		Addr: *config.DefaultConfig.RedisDsn,
-		DB:   0,
 	})
 	return rdb
 }
