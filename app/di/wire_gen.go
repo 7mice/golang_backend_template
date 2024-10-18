@@ -9,6 +9,7 @@ package di
 import (
 	"ginTemplate/app/connections"
 	"ginTemplate/internal/controller"
+	"ginTemplate/internal/middleware"
 	"ginTemplate/internal/repository"
 	"ginTemplate/internal/service"
 	"github.com/google/wire"
@@ -21,7 +22,8 @@ func Init() *Initialization {
 	testRepositoryImpl := repository.TestRepositoryInit(db)
 	testServiceImpl := service.TestServiceInit(testRepositoryImpl)
 	testControllerImpl := controller.TestControllerInit(testServiceImpl)
-	initialization := NewInitialization(testControllerImpl)
+	middlewaresImpl := middleware.MiddlewaresInit()
+	initialization := NewInitialization(testControllerImpl, middlewaresImpl)
 	return initialization
 }
 
@@ -30,3 +32,5 @@ func Init() *Initialization {
 var connectionsSet = wire.NewSet(connections.ConnectToDB, connections.ConnectToNatsBroker, connections.ConnectToRedis)
 
 var testSet = wire.NewSet(repository.TestRepositoryInit, wire.Bind(new(repository.TestRepository), new(*repository.TestRepositoryImpl)), service.TestServiceInit, wire.Bind(new(service.TestService), new(*service.TestServiceImpl)), controller.TestControllerInit, wire.Bind(new(controller.TestController), new(*controller.TestControllerImpl)))
+
+var workSet = wire.NewSet(middleware.MiddlewaresInit, wire.Bind(new(middleware.Middlewares), new(*middleware.MiddlewaresImpl)))

@@ -7,6 +7,7 @@ package di
 import (
 	"ginTemplate/app/connections"
 	"ginTemplate/internal/controller"
+	"ginTemplate/internal/middleware"
 	"ginTemplate/internal/repository"
 	"ginTemplate/internal/service"
 	"github.com/google/wire"
@@ -27,9 +28,15 @@ var testSet = wire.NewSet(
 	wire.Bind(new(controller.TestController), new(*controller.TestControllerImpl)),
 )
 
+var workSet = wire.NewSet(
+	middleware.MiddlewaresInit,
+	wire.Bind(new(middleware.Middlewares), new(*middleware.MiddlewaresImpl)),
+)
+
 func Init() *Initialization {
 	wire.Build(NewInitialization,
 		connectionsSet,
-		testSet)
+		testSet,
+		workSet)
 	return nil
 }

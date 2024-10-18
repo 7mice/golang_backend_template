@@ -11,6 +11,7 @@ func Init(u *di.Initialization) *gin.Engine {
 	router := gin.New()
 	router.Use(logging.DefaultStructuredLogger())
 	router.Use(gin.Recovery())
+	router.Use(u.Middlewares.CorsMiddleware())
 	{
 		routers.SetupMainGroup(router, u)
 	}

@@ -6,7 +6,7 @@ import (
 )
 
 type TestService interface {
-	Test(c *gin.Context) string
+	Test(c *gin.Context) (string, error)
 }
 
 type TestServiceImpl struct {
@@ -19,6 +19,6 @@ func TestServiceInit(testRepository repository.TestRepository) *TestServiceImpl 
 	}
 }
 
-func (u *TestServiceImpl) Test(c *gin.Context) string {
+func (u *TestServiceImpl) Test(c *gin.Context) (string, error) {
 	return u.testRepository.Test(c)
 }

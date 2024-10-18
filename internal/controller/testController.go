@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"ginTemplate/internal/constants"
 	"ginTemplate/internal/service"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -21,7 +22,11 @@ func TestControllerInit(testService service.TestService) *TestControllerImpl {
 }
 
 func (u *TestControllerImpl) Test(c *gin.Context) {
-	test := u.testService.Test(c)
+	test, err := u.testService.Test(c)
+	if err != nil {
+		constants.HandleError(c, err)
+		return
+	}
 	c.String(http.StatusOK, test)
 	return
 }

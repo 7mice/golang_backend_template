@@ -1,12 +1,13 @@
 package repository
 
 import (
+	"ginTemplate/internal/constants"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
 
 type TestRepository interface {
-	Test(c *gin.Context) string
+	Test(c *gin.Context) (string, error)
 }
 
 type TestRepositoryImpl struct {
@@ -19,6 +20,6 @@ func TestRepositoryInit(db *gorm.DB) *TestRepositoryImpl {
 	}
 }
 
-func (u *TestRepositoryImpl) Test(c *gin.Context) string {
-	return "test"
+func (u *TestRepositoryImpl) Test(c *gin.Context) (string, error) {
+	return "test", constants.UnauthorizedError
 }
