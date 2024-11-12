@@ -1,0 +1,1 @@
+goose -dir migrations postgres postgres://admin:admin@localhost:5432/test status
